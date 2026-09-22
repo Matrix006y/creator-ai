@@ -245,11 +245,11 @@
 
   <p>Opisz czego potrzebujesz. AI wykorzysta te informacje do przygotowania projektu.</p>
 
-  <form>
+  <form id="orderForm">
 
     <label>Rodzaj grafiki</label>
 
-    <select>
+    <select id="graphicType" required>
       <option>Miniaturka YouTube</option>
       <option>Banner</option>
       <option>Grafika social media</option>
@@ -259,22 +259,28 @@
     <label>Temat</label>
 
     <input
-      type="text"
-      placeholder="Np. film z Minecrafta"
-    >
+  id="topic"
+  required
+  type="text"
+  placeholder="Np. film z Minecrafta"
+>
 
     <label>Opisz swój pomysł</label>
 
     <textarea
-      placeholder="Np. postać po lewej stronie, duży napis, dynamiczne tło..."
-    ></textarea>
+  id="description"
+  required
+  placeholder="Np. postać po lewej stronie, duży napis, dynamiczne tło..."
+></textarea>
 
     <label>Email</label>
 
     <input
-      type="email"
-      placeholder="twoj@email.pl"
-    >
+  id="email"
+  required
+  type="email"
+  placeholder="twoj@email.pl"
+>
 
     <button type="button">
       Wyślij zamówienie
@@ -287,6 +293,25 @@
 <footer>
   CREATOR AI © 2026
 </footer>
+<script>
+  const form = document.getElementById("orderForm");
 
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const order = {
+      type: document.getElementById("graphicType").value,
+      topic: document.getElementById("topic").value,
+      description: document.getElementById("description").value,
+      email: document.getElementById("email").value
+    };
+
+    console.log("Nowe zamówienie:", order);
+
+    alert("Zamówienie przyjęte! CREATOR AI rozpoczyna przygotowanie projektu.");
+
+    form.reset();
+  });
+</script>
 </body>
 </html>
