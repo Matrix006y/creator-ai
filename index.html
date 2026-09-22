@@ -1,1 +1,292 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>CREATOR AI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #07090d;
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 7%;
+      border-bottom: 1px solid #1d2530;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #00e5ff;
+    }
+
+    .nav-button {
+      background: #00e5ff;
+      color: #001014;
+      padding: 10px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .hero {
+      min-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .badge {
+      border: 1px solid #00e5ff;
+      color: #00e5ff;
+      padding: 7px 14px;
+      border-radius: 30px;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 9vw, 85px);
+      max-width: 900px;
+    }
+
+    h1 span {
+      color: #00e5ff;
+    }
+
+    .hero p {
+      color: #aab2c0;
+      max-width: 650px;
+      margin-top: 22px;
+      line-height: 1.6;
+      font-size: 18px;
+    }
+
+    .main-button {
+      display: inline-block;
+      margin-top: 30px;
+      background: #00e5ff;
+      color: #001014;
+      padding: 16px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .services {
+      padding: 70px 7%;
+    }
+
+    .services h2 {
+      text-align: center;
+      font-size: 34px;
+      margin-bottom: 35px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .card {
+      background: #0d1118;
+      border: 1px solid #202a36;
+      padding: 28px;
+      border-radius: 18px;
+    }
+
+    .card h3 {
+      color: #00e5ff;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #9da7b5;
+      line-height: 1.5;
+    }
+
+    .order {
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 35px 25px;
+      background: #0d1118;
+      border: 1px solid #202a36;
+      border-radius: 20px;
+    }
+
+    .order h2 {
+      margin-bottom: 10px;
+    }
+
+    .order > p {
+      color: #9da7b5;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 7px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: #07090d;
+      border: 1px solid #293442;
+      color: white;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      background: #00e5ff;
+      color: #001014;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: bold;
+      margin-top: 22px;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      color: #697484;
+      padding: 40px 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">CREATOR <span>AI</span></div>
+  <a class="nav-button" href="#order">Zamów</a>
+</nav>
+
+<section class="hero">
+
+  <div class="badge">AI DESIGN STUDIO</div>
+
+  <h1>
+    Grafiki dla twórców.
+    <span>Tworzone przez AI.</span>
+  </h1>
+
+  <p>
+    Miniaturki, bannery i grafiki dla twórców internetowych.
+    Opisz swój pomysł, a CREATOR AI zajmie się resztą.
+  </p>
+
+  <a class="main-button" href="#order">
+    Stwórz grafikę
+  </a>
+
+</section>
+
+<section class="services">
+
+  <h2>Co możemy stworzyć?</h2>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Miniaturki YouTube</h3>
+      <p>Grafiki stworzone tak, aby wyróżniały film wśród innych materiałów.</p>
+    </div>
+
+    <div class="card">
+      <h3>Bannery</h3>
+      <p>Grafiki kanałów i profili dopasowane do stylu twórcy.</p>
+    </div>
+
+    <div class="card">
+      <h3>Social Media</h3>
+      <p>Grafiki przygotowane pod posty i profile w mediach społecznościowych.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="order" id="order">
+
+  <h2>Zamów grafikę</h2>
+
+  <p>Opisz czego potrzebujesz. AI wykorzysta te informacje do przygotowania projektu.</p>
+
+  <form>
+
+    <label>Rodzaj grafiki</label>
+
+    <select>
+      <option>Miniaturka YouTube</option>
+      <option>Banner</option>
+      <option>Grafika social media</option>
+      <option>Inna grafika</option>
+    </select>
+
+    <label>Temat</label>
+
+    <input
+      type="text"
+      placeholder="Np. film z Minecrafta"
+    >
+
+    <label>Opisz swój pomysł</label>
+
+    <textarea
+      placeholder="Np. postać po lewej stronie, duży napis, dynamiczne tło..."
+    ></textarea>
+
+    <label>Email</label>
+
+    <input
+      type="email"
+      placeholder="twoj@email.pl"
+    >
+
+    <button type="button">
+      Wyślij zamówienie
+    </button>
+
+  </form>
+
+</section>
+
+<footer>
+  CREATOR AI © 2026
+</footer>
+
+</body>
+</html>
