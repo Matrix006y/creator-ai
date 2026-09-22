@@ -369,11 +369,12 @@ form.addEventListener("submit", async function(event) {
   event.preventDefault();
 
   const order = {
-    type: document.getElementById("graphicType").value,
-    topic: document.getElementById("topic").value,
-    description: document.getElementById("description").value,
-    email: document.getElementById("email").value
-  };
+  Type: document.getElementById("graphicType").value,
+  Topic: document.getElementById("topic").value,
+  description: document.getElementById("description").value,
+  Email: document.getElementById("email").value,
+  Status: "Nowe"
+};
 
   try {
     const response = await fetch(
