@@ -1,202 +1,227 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>CREATOR AI</title>
+<title>CREATOR AI</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #07090d;
-      color: white;
-    }
+html {
+  scroll-behavior: smooth;
+}
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 7%;
-      border-bottom: 1px solid #1d2530;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #06080c;
+  color: white;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-    }
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 7%;
+  border-bottom: 1px solid #202733;
+}
 
-    .logo span {
-      color: #00e5ff;
-    }
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
 
-    .nav-button {
-      background: #00e5ff;
-      color: #001014;
-      padding: 10px 16px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.logo span {
+  color: #00ddff;
+}
 
-    .hero {
-      min-height: 75vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 20px;
-    }
+nav a {
+  background: #00ddff;
+  color: #001014;
+  padding: 12px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-    .badge {
-      border: 1px solid #00e5ff;
-      color: #00e5ff;
-      padding: 7px 14px;
-      border-radius: 30px;
-      margin-bottom: 25px;
-      font-size: 14px;
-    }
+.hero {
+  min-height: 75vh;
+  padding: 50px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
-    h1 {
-      font-size: clamp(42px, 9vw, 85px);
-      max-width: 900px;
-    }
+.badge {
+  color: #00ddff;
+  border: 1px solid #00ddff;
+  border-radius: 30px;
+  padding: 9px 17px;
+  margin-bottom: 25px;
+}
 
-    h1 span {
-      color: #00e5ff;
-    }
+h1 {
+  font-size: clamp(45px, 10vw, 85px);
+  max-width: 900px;
+  margin: 0;
+}
 
-    .hero p {
-      color: #aab2c0;
-      max-width: 650px;
-      margin-top: 22px;
-      line-height: 1.6;
-      font-size: 18px;
-    }
+h1 span {
+  color: #00ddff;
+}
 
-    .main-button {
-      display: inline-block;
-      margin-top: 30px;
-      background: #00e5ff;
-      color: #001014;
-      padding: 16px 28px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 18px;
-    }
+.hero p {
+  max-width: 650px;
+  color: #a6afbd;
+  font-size: 18px;
+  line-height: 1.6;
+}
 
-    .services {
-      padding: 70px 7%;
-    }
+.heroButton {
+  margin-top: 20px;
+  background: #00ddff;
+  color: #001014;
+  padding: 16px 28px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
 
-    .services h2 {
-      text-align: center;
-      font-size: 34px;
-      margin-bottom: 35px;
-    }
+.services {
+  padding: 60px 7%;
+}
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 18px;
-      max-width: 1000px;
-      margin: auto;
-    }
+.services h2 {
+  text-align: center;
+  font-size: 34px;
+}
 
-    .card {
-      background: #0d1118;
-      border: 1px solid #202a36;
-      padding: 28px;
-      border-radius: 18px;
-    }
+.cards {
+  max-width: 1000px;
+  margin: 35px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
 
-    .card h3 {
-      color: #00e5ff;
-      margin-bottom: 12px;
-    }
+.card {
+  padding: 25px;
+  background: #0d1118;
+  border: 1px solid #202a36;
+  border-radius: 18px;
+}
 
-    .card p {
-      color: #9da7b5;
-      line-height: 1.5;
-    }
+.card h3 {
+  color: #00ddff;
+}
 
-    .order {
-      max-width: 700px;
-      margin: 60px auto;
-      padding: 35px 25px;
-      background: #0d1118;
-      border: 1px solid #202a36;
-      border-radius: 20px;
-    }
+.card p {
+  color: #9ca7b5;
+  line-height: 1.5;
+}
 
-    .order h2 {
-      margin-bottom: 10px;
-    }
+.order {
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 30px;
+  background: #0d1118;
+  border: 1px solid #202a36;
+  border-radius: 20px;
+}
 
-    .order > p {
-      color: #9da7b5;
-      margin-bottom: 25px;
-    }
+.order h2 {
+  font-size: 32px;
+}
 
-    label {
-      display: block;
-      margin: 18px 0 7px;
-    }
+.order > p {
+  color: #a6afbd;
+}
 
-    input, select, textarea {
-      width: 100%;
-      background: #07090d;
-      border: 1px solid #293442;
-      color: white;
-      padding: 14px;
-      border-radius: 10px;
-      font-size: 16px;
-    }
+label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 17px;
+}
 
-    textarea {
-      min-height: 130px;
-      resize: vertical;
-    }
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #303b49;
+  background: #06080c;
+  color: white;
+  font-size: 16px;
+}
 
-    button {
-      width: 100%;
-      border: 0;
-      background: #00e5ff;
-      color: #001014;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 17px;
-      font-weight: bold;
-      margin-top: 22px;
-      cursor: pointer;
-    }
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
 
-    footer {
-      text-align: center;
-      color: #697484;
-      padding: 40px 20px;
-    }
-  </style>
+button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 16px;
+  border: none;
+  border-radius: 11px;
+  background: #00ddff;
+  color: #001014;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#success {
+  display: none;
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid #00ddff;
+  border-radius: 10px;
+  color: #00ddff;
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+  padding: 40px;
+  color: #657181;
+}
+
+@media (max-width: 600px) {
+  .order {
+    margin: 30px 15px;
+    padding: 22px;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <nav>
-  <div class="logo">CREATOR <span>AI</span></div>
-  <a class="nav-button" href="#order">Zamów</a>
+  <div class="logo">
+    CREATOR <span>AI</span>
+  </div>
+
+  <a href="#order">Zamów</a>
 </nav>
+
 
 <section class="hero">
 
-  <div class="badge">AI DESIGN STUDIO</div>
+  <div class="badge">
+    AI DESIGN STUDIO
+  </div>
 
   <h1>
     Grafiki dla twórców.
@@ -208,11 +233,12 @@
     Opisz swój pomysł, a CREATOR AI zajmie się resztą.
   </p>
 
-  <a class="main-button" href="#order">
+  <a href="#order" class="heroButton">
     Stwórz grafikę
   </a>
 
 </section>
+
 
 <section class="services">
 
@@ -222,96 +248,142 @@
 
     <div class="card">
       <h3>Miniaturki YouTube</h3>
-      <p>Grafiki stworzone tak, aby wyróżniały film wśród innych materiałów.</p>
+      <p>
+        Nowoczesne miniaturki dopasowane do tematu filmu.
+      </p>
     </div>
 
     <div class="card">
       <h3>Bannery</h3>
-      <p>Grafiki kanałów i profili dopasowane do stylu twórcy.</p>
+      <p>
+        Bannery kanałów i profili dopasowane do Twojego stylu.
+      </p>
     </div>
 
     <div class="card">
       <h3>Social Media</h3>
-      <p>Grafiki przygotowane pod posty i profile w mediach społecznościowych.</p>
+      <p>
+        Grafiki przeznaczone do publikowania w mediach społecznościowych.
+      </p>
     </div>
 
   </div>
 
 </section>
 
+
 <section class="order" id="order">
 
   <h2>Zamów grafikę</h2>
 
-  <p>Opisz czego potrzebujesz. AI wykorzysta te informacje do przygotowania projektu.</p>
+  <p>
+    Opisz czego potrzebujesz.
+  </p>
 
   <form id="orderForm">
 
-    <label>Rodzaj grafiki</label>
+    <label for="graphicType">
+      Rodzaj grafiki
+    </label>
 
     <select id="graphicType" required>
-      <option>Miniaturka YouTube</option>
-      <option>Banner</option>
-      <option>Grafika social media</option>
-      <option>Inna grafika</option>
+      <option value="Miniaturka YouTube">
+        Miniaturka YouTube
+      </option>
+
+      <option value="Banner">
+        Banner
+      </option>
+
+      <option value="Social Media">
+        Grafika social media
+      </option>
+
+      <option value="Inna">
+        Inna grafika
+      </option>
     </select>
 
-    <label>Temat</label>
+
+    <label for="topic">
+      Temat
+    </label>
 
     <input
-  id="topic"
-  required
-  type="text"
-  placeholder="Np. film z Minecrafta"
->
+      id="topic"
+      type="text"
+      placeholder="Np. Minecraft"
+      required
+    >
 
-    <label>Opisz swój pomysł</label>
+
+    <label for="description">
+      Opisz swój pomysł
+    </label>
 
     <textarea
-  id="description"
-  required
-  placeholder="Np. postać po lewej stronie, duży napis, dynamiczne tło..."
-></textarea>
+      id="description"
+      placeholder="Np. postać uciekająca przed zombie, duży napis..."
+      required
+    ></textarea>
 
-    <label>Email</label>
+
+    <label for="email">
+      Email
+    </label>
 
     <input
-  id="email"
-  required
-  type="email"
-  placeholder="twoj@email.pl"
->
+      id="email"
+      type="email"
+      placeholder="twoj@email.pl"
+      required
+    >
 
-    <button type="button">
+
+    <button type="submit">
       Wyślij zamówienie
     </button>
 
   </form>
 
+
+  <div id="success">
+    ✓ Zamówienie testowe zostało przyjęte!
+  </div>
+
 </section>
+
 
 <footer>
   CREATOR AI © 2026
 </footer>
+
+
 <script>
-  const form = document.getElementById("orderForm");
 
-  form.addEventListener("submit", function(event) {
-    event.preventDefault();
+const form = document.getElementById("orderForm");
+const success = document.getElementById("success");
 
-    const order = {
-      type: document.getElementById("graphicType").value,
-      topic: document.getElementById("topic").value,
-      description: document.getElementById("description").value,
-      email: document.getElementById("email").value
-    };
+form.addEventListener("submit", function(event) {
 
-    console.log("Nowe zamówienie:", order);
+  event.preventDefault();
 
-    alert("Zamówienie przyjęte! CREATOR AI rozpoczyna przygotowanie projektu.");
+  const order = {
+    type: document.getElementById("graphicType").value,
+    topic: document.getElementById("topic").value,
+    description: document.getElementById("description").value,
+    email: document.getElementById("email").value
+  };
 
-    form.reset();
-  });
+  console.log("CREATOR AI ORDER:", order);
+
+  success.style.display = "block";
+
+  form.reset();
+
+});
+
 </script>
+
 </body>
 </html>
