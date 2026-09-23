@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Creator AI — Panel Admina</title>
 
   <style>
@@ -33,7 +35,6 @@
       text-align: center;
       color: #999;
       margin-bottom: 35px;
-      font-size: 19px;
     }
 
     #loginBox {
@@ -57,20 +58,22 @@
     }
 
     button {
-      width: 100%;
-      padding: 15px;
+      padding: 12px 16px;
       border: none;
       border-radius: 10px;
       background: #18cbe8;
       color: #050708;
-      font-size: 17px;
       font-weight: bold;
       cursor: pointer;
     }
 
+    #loginBox button {
+      width: 100%;
+    }
+
     #loginMessage {
-      margin-top: 15px;
       color: #ff6b6b;
+      margin-top: 15px;
     }
 
     #adminPanel {
@@ -83,11 +86,6 @@
       align-items: center;
       gap: 15px;
       margin-bottom: 25px;
-    }
-
-    .topbar button {
-      width: auto;
-      padding: 10px 18px;
     }
 
     .order {
@@ -110,10 +108,21 @@
 
     .status {
       display: inline-block;
-      padding: 6px 12px;
+      padding: 7px 12px;
       border-radius: 20px;
       background: #263238;
-      margin-top: 8px;
+      margin: 8px 0 15px;
+    }
+
+    .statusButtons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .statusButtons button {
+      flex: 1;
+      min-width: 100px;
     }
 
     .error {
@@ -125,6 +134,8 @@
 <body>
 
 <div class="container">
+
+  <!-- LOGOWANIE -->
 
   <div id="loginSection">
 
@@ -156,13 +167,13 @@
   </div>
 
 
+  <!-- PANEL -->
+
   <div id="adminPanel">
 
     <div class="topbar">
 
-      <div>
-        <h2>Zamówienia Creator AI</h2>
-      </div>
+      <h2>Zamówienia Creator AI</h2>
 
       <button onclick="logout()">
         Wyloguj
@@ -187,11 +198,12 @@ const PROJECT_URL =
 const PUBLISHABLE_KEY =
   "sb_publishable__CetCkBZCQIclSvrhsWYzg_SqJseGD3";
 
-
 let accessToken = null;
 
 
-/* LOGOWANIE */
+/* =========================
+   LOGOWANIE
+========================= */
 
 async function login() {
 
@@ -205,7 +217,6 @@ async function login() {
     document.getElementById("loginMessage");
 
   message.textContent = "Logowanie...";
-
 
   try {
 
@@ -226,9 +237,7 @@ async function login() {
       }
     );
 
-
     const data = await response.json();
-
 
     if (!response.ok) {
 
@@ -242,7 +251,6 @@ async function login() {
       return;
     }
 
-
     accessToken = data.access_token;
 
     sessionStorage.setItem(
@@ -250,11 +258,9 @@ async function login() {
       accessToken
     );
 
-
     showAdmin();
 
-  }
-  catch (error) {
+  } catch (error) {
 
     message.textContent =
       "Nie udało się połączyć z serwerem.";
@@ -264,7 +270,9 @@ async function login() {
 }
 
 
-/* PANEL */
+/* =========================
+   PANEL
+========================= */
 
 function showAdmin() {
 
@@ -279,7 +287,9 @@ function showAdmin() {
 }
 
 
-/* POBIERANIE ZAMÓWIEŃ */
+/* =========================
+   POBIERANIE ZAMÓWIEŃ
+========================= */
 
 async function loadOrders() {
 
@@ -288,7 +298,6 @@ async function loadOrders() {
 
   ordersDiv.innerHTML =
     "<p>Ładowanie zamówień...</p>";
-
 
   try {
 
@@ -303,11 +312,9 @@ async function loadOrders() {
       }
     );
 
-
     if (!response.ok) {
 
-      const error =
-        await response.text();
+      const error = await response.text();
 
       ordersDiv.innerHTML =
         '<p class="error">Błąd: ' +
@@ -317,10 +324,7 @@ async function loadOrders() {
       return;
     }
 
-
-    const orders =
-      await response.json();
-
+    const orders = await response.json();
 
     if (orders.length === 0) {
 
@@ -330,9 +334,7 @@ async function loadOrders() {
       return;
     }
 
-
     ordersDiv.innerHTML = "";
-
 
     orders.forEach(order => {
 
@@ -364,17 +366,36 @@ async function loadOrders() {
           ${order.Email || "-"}
         </p>
 
-        <span class="status">
+        <p>
+          <b>Status:</b>
+        </p>
+
+        <div class="status">
           ${order.Status || "Nowe"}
-        </span>
+        </div>
+
+        <div class="statusButtons">
+
+          <button onclick="changeStatus(${order.id}, 'Nowe')">
+            Nowe
+          </button>
+
+          <button onclick="changeStatus(${order.id}, 'W trakcie')">
+            W trakcie
+          </button>
+
+          <button onclick="changeStatus(${order.id}, 'Gotowe')">
+            Gotowe
+          </button>
+
+        </div>
       `;
 
       ordersDiv.appendChild(card);
 
     });
 
-  }
-  catch (error) {
+  } catch (error) {
 
     ordersDiv.innerHTML =
       '<p class="error">Nie udało się pobrać zamówień.</p>';
@@ -384,7 +405,62 @@ async function loadOrders() {
 }
 
 
-/* WYLOGOWANIE */
+/* =========================
+   ZMIANA STATUSU
+========================= */
+
+async function changeStatus(orderId, newStatus) {
+
+  try {
+
+    const response = await fetch(
+      PROJECT_URL +
+      "/rest/v1/orders?id=eq." +
+      orderId,
+      {
+        method: "PATCH",
+
+        headers: {
+          "apikey": PUBLISHABLE_KEY,
+          "Authorization": "Bearer " + accessToken,
+          "Content-Type": "application/json",
+          "Prefer": "return=minimal"
+        },
+
+        body: JSON.stringify({
+          Status: newStatus
+        })
+      }
+    );
+
+    if (!response.ok) {
+
+      const error = await response.text();
+
+      alert(
+        "Błąd zmiany statusu: " +
+        error
+      );
+
+      return;
+    }
+
+    await loadOrders();
+
+  } catch (error) {
+
+    alert(
+      "Nie udało się zmienić statusu."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   WYLOGOWANIE
+========================= */
 
 function logout() {
 
@@ -403,10 +479,14 @@ function logout() {
 }
 
 
-/* SPRAWDZENIE SESJI */
+/* =========================
+   SESJA
+========================= */
 
 const savedToken =
-  sessionStorage.getItem("creatorAiToken");
+  sessionStorage.getItem(
+    "creatorAiToken"
+  );
 
 if (savedToken) {
 
