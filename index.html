@@ -367,8 +367,9 @@ const form = document.getElementById("orderForm");
 
 form.addEventListener("submit", async function(event) {
   event.preventDefault();
-
+const orderCode = "CA-" + Math.random().toString(36).substring(2, 8).toUpperCase();
   const order = {
+    order_code: orderCode,
   Type: document.getElementById("graphicType").value,
   Topic: document.getElementById("topic").value,
   description: document.getElementById("description").value,
