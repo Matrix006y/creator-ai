@@ -346,6 +346,23 @@ footer {
 
   </form>
 
+  <div class="status-check">
+  <h2>Sprawdź status zamówienia</h2>
+  <p>Wpisz kod, który dostałeś po wysłaniu zamówienia.</p>
+
+  <input
+    type="text"
+    id="checkCode"
+    placeholder="Np. CA-B9MNTC"
+  >
+
+  <button type="button" onclick="checkOrderStatus()">
+    Sprawdź status
+  </button>
+
+  <div id="statusResult"></div>
+  </div>
+
 
   <div id="success">
     ✓ Zamówienie testowe zostało przyjęte!
@@ -358,7 +375,49 @@ footer {
   CREATOR AI © 2026
 </footer>
 
+async function checkOrderStatus() {
+  const code = document.getElementById("checkCode").value.trim();
+  const result = document.getElementById("statusResult");
 
+  if (!code) {
+    result.innerHTML = "Wpisz kod zamówienia.";
+    return;
+  }
+
+  result.innerHTML = "Sprawdzanie...";
+
+  try {
+    const response = await fetch(
+      "https://yhuqrhcbljiebkufwpnl.supabase.co/rest/v1/orders?order_code=eq." +
+        encodeURIComponent(code) +
+        "&select=order_code,Status",
+      {
+        headers: {
+          "apikey": SUPABASE_KEY
+        }
+      }
+    );
+
+    if (!response.ok) {
+      result.innerHTML = "Błąd podczas sprawdzania.";
+      return;
+    }
+
+    const data = await response.json();
+
+    if (data.length === 0) {
+      result.innerHTML = "Nie znaleziono takiego zamówienia.";
+      return;
+    }
+
+    result.innerHTML =
+      "Kod: <b>" + data[0].order_code +
+      "</b><br>Status: <b>" + data[0].Status + "</b>";
+
+  } catch (error) {
+    result.innerHTML = "Nie udało się połączyć z bazą.";
+  }
+}
 <script>
 const SUPABASE_URL = "https://yhuqrhcbljiebkufwpnl.supabase.co";
 const SUPABASE_KEY = "sb_publishable__CetCkBZCQIclSvrhsWYzg_SqJseGD3";
