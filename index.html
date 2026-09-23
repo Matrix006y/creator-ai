@@ -399,7 +399,7 @@ const orderCode = "CA-" + Math.random().toString(36).substring(2, 8).toUpperCase
       return;
     }
 
-    alert("Zamówienie przyjęte!");
+    alert("Zamówienie przyjęte!\n\nTwój kod zamówienia: " + orderCode + "\n\nZapisz ten kod, aby później sprawdzić status.");
     form.reset();
 
   } catch (error) {
