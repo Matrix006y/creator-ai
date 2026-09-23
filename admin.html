@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="pl">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Creator AI — Panel Admina</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 20px;
@@ -16,22 +18,76 @@
       font-family: Arial, sans-serif;
     }
 
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+    }
+
     h1 {
       text-align: center;
-      margin-bottom: 10px;
       font-size: 40px;
+      margin-bottom: 8px;
     }
 
     .subtitle {
       text-align: center;
       color: #999;
-      margin-bottom: 40px;
-      font-size: 20px;
+      margin-bottom: 35px;
+      font-size: 19px;
     }
 
-    #orders {
-      max-width: 800px;
+    #loginBox {
+      max-width: 450px;
       margin: auto;
+      background: #12171a;
+      border: 1px solid #263238;
+      border-radius: 18px;
+      padding: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      border: 1px solid #37474f;
+      background: #080b0d;
+      color: white;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #18cbe8;
+      color: #050708;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #loginMessage {
+      margin-top: 15px;
+      color: #ff6b6b;
+    }
+
+    #adminPanel {
+      display: none;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .topbar button {
+      width: auto;
+      padding: 10px 18px;
     }
 
     .order {
@@ -68,122 +124,299 @@
 
 <body>
 
-  <h1>Panel Admina</h1>
-  <p class="subtitle">Zamówienia Creator AI</p>
+<div class="container">
 
-  <div id="orders">
-    <p>Ładowanie zamówień...</p>
+  <div id="loginSection">
+
+    <h1>Panel Admina</h1>
+    <p class="subtitle">Zaloguj się do Creator AI</p>
+
+    <div id="loginBox">
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Email administratora"
+      >
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Hasło"
+      >
+
+      <button onclick="login()">
+        Zaloguj
+      </button>
+
+      <p id="loginMessage"></p>
+
+    </div>
+
   </div>
 
 
-  <script>
+  <div id="adminPanel">
 
-    const SUPABASE_URL =
-      "https://yhuqrhcbljiebkufwpnl.supabase.co/rest/v1/orders";
+    <div class="topbar">
 
-    const SUPABASE_KEY =
-      "sb_publishable__CetCkBZCQIclSvrhsWYzg_SqJseGD3";
+      <div>
+        <h2>Zamówienia Creator AI</h2>
+      </div>
 
+      <button onclick="logout()">
+        Wyloguj
+      </button>
 
-    async function loadOrders() {
+    </div>
 
-      const ordersDiv = document.getElementById("orders");
+    <div id="orders">
+      <p>Ładowanie zamówień...</p>
+    </div>
 
-      try {
+  </div>
 
-        const response = await fetch(
-          SUPABASE_URL + "?select=*&order=created_at.desc",
-          {
-            method: "GET",
-
-            headers: {
-              "apikey": SUPABASE_KEY
-            }
-          }
-        );
+</div>
 
 
-        if (!response.ok) {
+<script>
 
-          const error = await response.text();
+const PROJECT_URL =
+  "https://yhuqrhcbljiebkufwpnl.supabase.co";
 
-          ordersDiv.innerHTML =
-            '<p class="error">Błąd: ' + error + '</p>';
-
-          return;
-        }
+const PUBLISHABLE_KEY =
+  "sb_publishable__CetCkBZCQIclSvrhsWYzg_SqJseGD3";
 
 
-        const orders = await response.json();
+let accessToken = null;
 
 
-        if (orders.length === 0) {
+/* LOGOWANIE */
 
-          ordersDiv.innerHTML =
-            "<p>Brak zamówień.</p>";
+async function login() {
 
-          return;
-        }
+  const email =
+    document.getElementById("email").value;
 
+  const password =
+    document.getElementById("password").value;
 
-        ordersDiv.innerHTML = "";
+  const message =
+    document.getElementById("loginMessage");
 
-
-        orders.forEach(order => {
-
-          const card = document.createElement("div");
-
-          card.className = "order";
-
-          card.innerHTML = `
-            <h2>Zamówienie #${order.id}</h2>
-
-            <p>
-              <b>Rodzaj:</b>
-              ${order.Type || "-"}
-            </p>
-
-            <p>
-              <b>Temat:</b>
-              ${order.Topic || "-"}
-            </p>
-
-            <p>
-              <b>Opis:</b>
-              ${order.description || "-"}
-            </p>
-
-            <p>
-              <b>Email:</b>
-              ${order.Email || "-"}
-            </p>
-
-            <span class="status">
-              ${order.Status || "Nowe"}
-            </span>
-          `;
-
-          ordersDiv.appendChild(card);
-
-        });
+  message.textContent = "Logowanie...";
 
 
-      } catch (error) {
+  try {
 
-        console.error(error);
+    const response = await fetch(
+      PROJECT_URL + "/auth/v1/token?grant_type=password",
+      {
+        method: "POST",
 
-        ordersDiv.innerHTML =
-          '<p class="error">Nie udało się połączyć z bazą.</p>';
+        headers: {
+          "apikey": PUBLISHABLE_KEY,
+          "Content-Type": "application/json"
+        },
 
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
       }
+    );
 
+
+    const data = await response.json();
+
+
+    if (!response.ok) {
+
+      message.textContent =
+        "Błąd logowania: " +
+        (data.error_description ||
+         data.msg ||
+         data.message ||
+         "Nieprawidłowe dane");
+
+      return;
     }
 
 
-    loadOrders();
+    accessToken = data.access_token;
 
-  </script>
+    sessionStorage.setItem(
+      "creatorAiToken",
+      accessToken
+    );
+
+
+    showAdmin();
+
+  }
+  catch (error) {
+
+    message.textContent =
+      "Nie udało się połączyć z serwerem.";
+
+  }
+
+}
+
+
+/* PANEL */
+
+function showAdmin() {
+
+  document.getElementById("loginSection")
+    .style.display = "none";
+
+  document.getElementById("adminPanel")
+    .style.display = "block";
+
+  loadOrders();
+
+}
+
+
+/* POBIERANIE ZAMÓWIEŃ */
+
+async function loadOrders() {
+
+  const ordersDiv =
+    document.getElementById("orders");
+
+  ordersDiv.innerHTML =
+    "<p>Ładowanie zamówień...</p>";
+
+
+  try {
+
+    const response = await fetch(
+      PROJECT_URL +
+      "/rest/v1/orders?select=*&order=created_at.desc",
+      {
+        headers: {
+          "apikey": PUBLISHABLE_KEY,
+          "Authorization": "Bearer " + accessToken
+        }
+      }
+    );
+
+
+    if (!response.ok) {
+
+      const error =
+        await response.text();
+
+      ordersDiv.innerHTML =
+        '<p class="error">Błąd: ' +
+        error +
+        "</p>";
+
+      return;
+    }
+
+
+    const orders =
+      await response.json();
+
+
+    if (orders.length === 0) {
+
+      ordersDiv.innerHTML =
+        "<p>Brak zamówień.</p>";
+
+      return;
+    }
+
+
+    ordersDiv.innerHTML = "";
+
+
+    orders.forEach(order => {
+
+      const card =
+        document.createElement("div");
+
+      card.className = "order";
+
+      card.innerHTML = `
+        <h2>Zamówienie #${order.id}</h2>
+
+        <p>
+          <b>Rodzaj:</b>
+          ${order.Type || "-"}
+        </p>
+
+        <p>
+          <b>Temat:</b>
+          ${order.Topic || "-"}
+        </p>
+
+        <p>
+          <b>Opis:</b>
+          ${order.description || "-"}
+        </p>
+
+        <p>
+          <b>Email:</b>
+          ${order.Email || "-"}
+        </p>
+
+        <span class="status">
+          ${order.Status || "Nowe"}
+        </span>
+      `;
+
+      ordersDiv.appendChild(card);
+
+    });
+
+  }
+  catch (error) {
+
+    ordersDiv.innerHTML =
+      '<p class="error">Nie udało się pobrać zamówień.</p>';
+
+  }
+
+}
+
+
+/* WYLOGOWANIE */
+
+function logout() {
+
+  sessionStorage.removeItem(
+    "creatorAiToken"
+  );
+
+  accessToken = null;
+
+  document.getElementById("adminPanel")
+    .style.display = "none";
+
+  document.getElementById("loginSection")
+    .style.display = "block";
+
+}
+
+
+/* SPRAWDZENIE SESJI */
+
+const savedToken =
+  sessionStorage.getItem("creatorAiToken");
+
+if (savedToken) {
+
+  accessToken = savedToken;
+
+  showAdmin();
+
+}
+
+</script>
 
 </body>
-
 </html>
