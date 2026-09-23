@@ -387,7 +387,18 @@ async function loadOrders() {
           <button onclick="changeStatus(${order.id}, 'Gotowe')">
             Gotowe
           </button>
+<div style="margin-top:20px;">
+  <input
+    type="url"
+    id="result-${order.id}"
+    placeholder="Link do gotowej grafiki"
+    value="${order.result_url || ''}"
+  >
 
+  <button onclick="saveResult(${order.id})">
+    Zapisz grafikę
+  </button>
+</div>
         </div>
       `;
 
@@ -456,7 +467,45 @@ async function changeStatus(orderId, newStatus) {
   }
 
 }
+async function saveResult(orderId) {
+  const input = document.getElementById("result-" + orderId);
+  const resultUrl = input.value.trim();
 
+  if (!resultUrl) {
+    alert("Wklej link do gotowej grafiki.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      PROJECT_URL + "/rest/v1/orders?id=eq." + orderId,
+      {
+        method: "PATCH",
+        headers: {
+          "apikey": PUBLISHABLE_KEY,
+          "Authorization": "Bearer " + accessToken,
+          "Content-Type": "application/json",
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify({
+          result_url: resultUrl
+        })
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.text();
+      alert("Błąd zapisu grafiki: " + error);
+      return;
+    }
+
+    alert("Grafika zapisana!");
+    await loadOrders();
+
+  } catch (error) {
+    alert("Nie udało się zapisać grafiki.");
+  }
+}
 
 /* =========================
    WYLOGOWANIE
