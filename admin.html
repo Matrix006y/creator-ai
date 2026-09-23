@@ -56,7 +56,58 @@
     }
   </style>
 </head>
+<script>
+const SUPABASE_URL = "https://yhuqrhcbljiebkufwpnl.supabase.co/rest/v1/orders";
+const SUPABASE_KEY = "TU_WKLEJ_SWOJ_PUBLISHABLE_KEY";
 
+async function loadOrders() {
+  const ordersDiv = document.getElementById("orders");
+
+  try {
+    const response = await fetch(
+      SUPABASE_URL + "?select=*&order=created_at.desc",
+      {
+        headers: {
+          "apikey": SUPABASE_KEY
+        }
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.text();
+      ordersDiv.innerHTML = "<p>Błąd: " + error + "</p>";
+      return;
+    }
+
+    const orders = await response.json();
+
+    if (orders.length === 0) {
+      ordersDiv.innerHTML = "<p>Brak zamówień.</p>";
+      return;
+    }
+
+    ordersDiv.innerHTML = "";
+
+    orders.forEach(order => {
+      ordersDiv.innerHTML += `
+        <div class="order">
+          <h2>Zamówienie #${order.id}</h2>
+          <p><b>Rodzaj:</b> ${order.Type || "-"}</p>
+          <p><b>Temat:</b> ${order.Topic || "-"}</p>
+          <p><b>Opis:</b> ${order.description || "-"}</p>
+          <p><b>Email:</b> ${order.Email || "-"}</p>
+          <span class="status">${order.Status || "Nowe"}</span>
+        </div>
+      `;
+    });
+
+  } catch (error) {
+    ordersDiv.innerHTML = "<p>Nie udało się połączyć z bazą.</p>";
+  }
+}
+
+loadOrders();
+</script>
 <body>
 
   <h1>Panel Admina</h1>
